@@ -1,9 +1,17 @@
+// ignore_for_file: slash_for_doc_comments
+
 import 'package:flutter/material.dart';
+// import 'package:flutter_demo/navigator/tab.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+/**
+ * 入口函数
+ */
+void main() => runApp(const MyApp());
 
+/**
+ * 这里相当于Android的Application类
+ * StatelessWidget表示无状态控件
+ */
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -11,7 +19,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'hello world',
+      // 主题相关配置，配合APP整体的主题样式--如整体颜色、控件默认样式等
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -22,13 +31,18 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // home指定启动后显示页面--类似AndroidManifest中配置启动页面
+      home: const MyHomePage(title: 'MICAS首页'),
     );
   }
 }
 
+/**
+ * StatefulWidget是一个有状态的控件，若页面需更新ui，则需继承自StatefulWidget
+ * 纯展示页面，则继承StatelessWidget即可
+ */
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -43,6 +57,10 @@ class MyHomePage extends StatefulWidget {
 
   final String title;
 
+  /**
+   * 所有继承自StatefulWwidget的控件都要重写createState（）方法
+   * 在dart中下划线开头声明的变量和方法，其默认访问权限就是私有的
+   */
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -50,6 +68,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  // 计数器加一
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -58,6 +77,13 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+    });
+  }
+
+  // 计数器减一
+  void _reduceCounter() {
+    setState(() {
+      _counter--;
     });
   }
 
@@ -96,11 +122,21 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'You have pushed the button this many times:',
+              '点击的次数:',
+              style: TextStyle(fontSize: 30, letterSpacing: 3),
             ),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
+            ),
+            FlatButton(
+                onPressed: _reduceCounter,
+                child: const Text("点击减一"),
+                color: Colors.blue),
+            const IconButton(
+              icon: Icon(Icons.search),
+              tooltip: 'Search',
+              onPressed: null,
             ),
           ],
         ),
